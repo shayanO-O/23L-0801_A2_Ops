@@ -1,0 +1,10 @@
+run_name,run_id,architecture,learning_rate,best_epoch,val_loss,val_accuracy,val_auc,val_precision,val_recall,val_f1
+R0_baseline_cnn,8410792109094bc99cf8a8144409fe80,baseline_cnn,0.001,1,0.6837,0.6301,0.6485,0.6709,0.6543,0.6625
+R1_tl_frozen_lr1e-3,735c8a2446354221bd6ed5abab5bf5c1,mobilenet_v2,0.001,7,0.5713,0.7123,0.7677,0.7294,0.7654,0.747
+R2_tl_frozen_lr1e-4,18b32ee68dbc4deba7f9c342f51e0223,mobilenet_v2,0.0001,20,0.6114,0.6918,0.7236,0.6957,0.7901,0.7399
+R3_tl_frozen_noaug,1b0a327bd9ed4e92a26f35820247eb65,mobilenet_v2,0.001,8,0.5444,0.7192,0.8009,0.7439,0.7531,0.7485
+R4_tl_frozen_img160,edd3f5048c86471e982707e4a4672c27,mobilenet_v2,0.001,10,0.5795,0.7671,0.7885,0.7527,0.8642,0.8046
+R5_tl_finetune_last_block,8de6505308004030847a7d8c7a72e6e4,mobilenet_v2_finetune,0.0001,8,0.5456,0.7603,0.8127,0.7805,0.7901,0.7853
+R6_effb0_frozen_lr1e-3,fc8c78ea783f4068bdb0d8f881629634,efficientnetb0,0.001,13,0.5184,0.7397,0.8157,0.759,0.7778,0.7683
+final_manual,a154df827bdb422795312b831184baca,mobilenet_v2_best,0.01,6,0.5376,0.7671,0.842,0.764,0.8395,0.8
+final_autolog,a7f33c8fc1a6479aa39a2ad8c839cc63,N/A,N/A,1,0.5424,0.7534,0.8471,0.7778,0.7778,0.7778
