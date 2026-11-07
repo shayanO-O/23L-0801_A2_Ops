@@ -1,4 +1,3 @@
-import pandas as pd
 import tensorflow as tf
 from tensorflow.keras import layers
 
@@ -45,6 +44,7 @@ def create_dataset_from_csv(
     seed=SEED,
 ):
     # Build High Performance tf.data Input Pipeline
+    import pandas as pd
     df = pd.read_csv(csv_path)
     relpaths = df["relpath"].values
     labels = df["label"].values.astype("float32")
