@@ -13,7 +13,6 @@ from sklearn.metrics import (
     f1_score,
     roc_curve,
     roc_auc_score,
-    precision_recall_curve,
     average_precision_score,
     confusion_matrix,
     ConfusionMatrixDisplay,
@@ -253,7 +252,6 @@ def run_evaluation():
 
     # 9. Upload Artifacts to MLflow Champion Run
     try:
-        import mlflow
         from mlflow.tracking import MlflowClient
 
         client = MlflowClient()

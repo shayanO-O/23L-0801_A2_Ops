@@ -62,7 +62,7 @@ def generate_error_analysis():
         try:
             img = Image.open(img_path).convert("RGB")
             axes[i].imshow(img)
-        except Exception as e:
+        except Exception:
             axes[i].text(0.5, 0.5, "Image Load\nError", ha="center", va="center")
 
         title = f"True: {gt_label}\nPred P(AI): {p:.2f}\n[{err_type}]"

@@ -1,0 +1,12 @@
+.venv/
+data/
+.git/
+mlruns/
+scratch/
+report/screenshots/
+__pycache__/
+*.pyc
+*.log
+.pytest_cache/
+.ruff_cache/
+.env

@@ -15,7 +15,6 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
 import mlflow
 import mlflow.keras
 from mlflow.tracking import MlflowClient
-import numpy as np
 import tensorflow as tf
 from dotenv import load_dotenv
 
@@ -130,7 +129,7 @@ def run_remote_toy():
     run_name = "toy_remote_verification"
     registered_name = "23L-0801_A2_Ops_toy_model"
 
-    with mlflow.start_run(run_name=run_name) as run:
+    with mlflow.start_run(run_name=run_name):
         print(f"\n--- Starting Remote {run_name} on DagsHub ---")
         mlflow.log_param("learning_rate", lr)
         mlflow.log_param("epochs", 2)

@@ -16,7 +16,6 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-import matplotlib.pyplot as plt
 import mlflow
 import mlflow.keras
 import pandas as pd
@@ -147,9 +146,9 @@ def execute_single_run(run_name, model_builder_fn, config, splits_dir="splits", 
         print(f"[IDEMPOTENT SKIP] Run '{run_name}' Already Completed. Skipping.")
         return existing.info.run_id
 
-    print(f"\n========================================================")
+    print("\n========================================================")
     print(f" Executing Experiment Run: {run_name} (Smoke={smoke})")
-    print(f"========================================================")
+    print("========================================================")
 
     mark_older_runs_superseded(client, exp_id, run_name)
 
@@ -346,7 +345,7 @@ def run_stage_tuner(smoke=False):
 
     mark_older_runs_superseded(client, exp_id, "tuner")
 
-    with mlflow.start_run(run_name="tuner") as run:
+    with mlflow.start_run(run_name="tuner"):
         mlflow.log_params(best_trial)
         mlflow.set_tag("git_commit", code_commit)
         mlflow.set_tag("dvc_data_md5", dvc_md5)
