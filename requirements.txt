@@ -1,0 +1,9 @@
+# VisionGuard Runtime Requirements
+Flask==3.1.0
+Flask-SQLAlchemy==3.1.1
+psycopg2-binary==2.9.10
+Pillow==11.1.0
+numpy==2.1.3
+requests==2.32.3
+python-dotenv==1.0.1
+tensorflow-cpu==2.21.0
