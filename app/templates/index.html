@@ -8,615 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #09090b;
-      --surface-1: #121215;
-      --surface-2: #18181b;
-      --surface-3: #222226;
-      --border-subtle: rgba(255, 255, 255, 0.07);
-      --border-muted: rgba(255, 255, 255, 0.12);
-      --border-hover: rgba(255, 255, 255, 0.22);
-      
-      --text-primary: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-tertiary: #71717a;
-      
-      --accent: #3b82f6;
-      --accent-muted: rgba(59, 130, 246, 0.12);
-      
-      --ai-text: #fb7185;
-      --ai-bg: rgba(244, 63, 94, 0.08);
-      --ai-border: rgba(244, 63, 94, 0.25);
-      
-      --real-text: #34d399;
-      --real-bg: rgba(16, 185, 129, 0.08);
-      --real-border: rgba(16, 185, 129, 0.25);
-
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 2.5rem 1.5rem;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.08), transparent 100%),
-        linear-gradient(to bottom, #09090b, #09090b);
-    }
-
-    .container {
-      max-width: 1040px;
-      margin: 0 auto;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    /* Header & Navigation Bar */
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding-bottom: 0.5rem;
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .meta-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      padding: 0.25rem 0.65rem;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    }
-
-    .meta-pill .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--real-text);
-      box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
-    }
-
-    .meta-pill .sep {
-      color: var(--border-muted);
-    }
-
-    .header-titles h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }
-
-    .header-titles p {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-top: 0.2rem;
-    }
-
-    /* Grid Workspace */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-
-    @media (min-width: 860px) {
-      .grid {
-        grid-template-columns: 1.05fr 0.95fr;
-      }
-    }
-
-    /* Cards */
-    .card {
-      background: var(--surface-1);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 1.25rem 1.35rem;
-      box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .card-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: -0.015em;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .mode-chip {
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      font-weight: 500;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-    }
-
-    .mode-chip.active {
-      background: rgba(59, 130, 246, 0.08);
-      border-color: rgba(59, 130, 246, 0.25);
-      color: #60a5fa;
-    }
-
-    .latency-chip {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Dropzone */
-    .dropzone {
-      border: 1px dashed var(--border-muted);
-      border-radius: 8px;
-      padding: 2.25rem 1.25rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      background: var(--surface-2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .dropzone:hover, .dropzone.dragover {
-      border-color: var(--border-hover);
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .dropzone-icon {
-      width: 36px;
-      height: 36px;
-      color: var(--text-tertiary);
-      margin-bottom: 0.75rem;
-      stroke-width: 1.5;
-    }
-
-    .dropzone-prompt {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.35rem;
-    }
-
-    .dropzone-prompt strong {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    .dropzone-note {
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-      font-family: var(--font-mono);
-    }
-
-    .preview-container {
-      margin-top: 1rem;
-      display: none;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 0.5rem;
-      background: var(--surface-2);
-      text-align: center;
-    }
-
-    .preview-img {
-      max-height: 180px;
-      max-width: 100%;
-      border-radius: 6px;
-      object-fit: contain;
-    }
-
-    .preview-filename {
-      margin-top: 0.4rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Action Button (Tactile Vercel / Linear Style) */
-    .btn-submit {
-      width: 100%;
-      margin-top: 1rem;
-      padding: 0.65rem 1rem;
-      background: #ffffff;
-      color: #09090b;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      box-shadow: 
-        0 1px 2px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-      transition: all 0.15s ease;
-    }
-
-    .btn-submit:hover:not(:disabled) {
-      background: #f4f4f5;
-      transform: translateY(-1px);
-      box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    }
-
-    .btn-submit:active:not(:disabled) {
-      transform: translateY(0);
-      background: #e4e4e7;
-    }
-
-    .btn-submit:disabled {
-      background: var(--surface-2);
-      color: var(--text-tertiary);
-      border: 1px solid var(--border-subtle);
-      box-shadow: none;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Verdict Box */
-    .verdict-box {
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 1rem 0.5rem;
-      height: 100%;
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-tertiary);
-    }
-
-    .empty-icon {
-      width: 32px;
-      height: 32px;
-      color: var(--text-tertiary);
-      stroke-width: 1.5;
-    }
-
-    .empty-text {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-
-    .empty-subtext {
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-      max-width: 240px;
-    }
-
-    /* Verdict Result State */
-    .result-content {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .verdict-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1.25rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      margin-bottom: 0.75rem;
-    }
-
-    .verdict-badge .status-light {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .verdict-ai {
-      color: var(--ai-text);
-      background: var(--ai-bg);
-      border: 1px solid var(--ai-border);
-    }
-
-    .verdict-ai .status-light {
-      background: var(--ai-text);
-      box-shadow: 0 0 8px rgba(251, 113, 133, 0.6);
-    }
-
-    .verdict-real {
-      color: var(--real-text);
-      background: var(--real-bg);
-      border: 1px solid var(--real-border);
-    }
-
-    .verdict-real .status-light {
-      background: var(--real-text);
-      box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
-    }
-
-    .confidence-summary {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .confidence-summary strong {
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-weight: 600;
-      font-feature-settings: "tnum";
-    }
-
-    /* Tactile Meter */
-    .meter-container {
-      width: 100%;
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      height: 6px;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 1.25rem;
-    }
-
-    .meter-bar {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .meter-ai { background: var(--ai-text); }
-    .meter-real { background: var(--real-text); }
-
-    /* Technical Metrics Tiles */
-    .metrics-grid {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      text-align: left;
-    }
-
-    .metric-tile {
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 0.6rem 0.75rem;
-    }
-
-    .metric-label {
-      font-size: 0.6875rem;
-      font-family: var(--font-mono);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-tertiary);
-      margin-bottom: 0.2rem;
-    }
-
-    .metric-value {
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Audit Trail Card */
-    .history-card {
-      margin-top: 0.25rem;
-    }
-
-    .btn-refresh {
-      background: var(--surface-2);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      padding: 0.25rem 0.65rem;
-      border-radius: 5px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.15s ease;
-    }
-
-    .btn-refresh:hover {
-      color: var(--text-primary);
-      border-color: var(--border-hover);
-      background: var(--surface-3);
-    }
-
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      margin-top: 0.25rem;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8125rem;
-      white-space: nowrap;
-    }
-
-    thead th {
-      background: var(--surface-2);
-      color: var(--text-tertiary);
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.6rem 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      text-align: left;
-    }
-
-    tbody td {
-      padding: 0.65rem 0.85rem;
-      border-bottom: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .mono {
-      font-family: var(--font-mono);
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-    }
-
-    .text-right {
-      text-align: right;
-    }
-
-    .tag-ai {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      font-weight: 600;
-      background: var(--ai-bg);
-      border: 1px solid var(--ai-border);
-      color: var(--ai-text);
-    }
-
-    .tag-real {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.15rem 0.45rem;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.6875rem;
-      font-weight: 600;
-      background: var(--real-bg);
-      border: 1px solid var(--real-border);
-      color: var(--real-text);
-    }
-
-    /* System Footer */
-    footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      padding: 1.25rem 0.25rem 0.5rem 0.25rem;
-      border-top: 1px solid var(--border-subtle);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .status-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--real-text);
-      box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
-    }
-
-    .footer-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .footer-tag {
-      color: var(--text-secondary);
-    }
-  </style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
   <div class="container">
@@ -636,7 +28,6 @@
       </div>
       <div class="header-titles">
         <h1>AI vs Real Image Inspector</h1>
-        <p>Champion MobileNetV2 Deep Learning Pipeline for Synthetic Art & Photorealism Discrimination</p>
       </div>
     </header>
 
@@ -693,7 +84,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
             <p class="empty-text">Awaiting image payload</p>
-            <p class="empty-subtext">Drop an image on the left or select a sample file to execute classification.</p>
+            <p class="empty-subtext">Drop an image on the left or browse local files to execute classification.</p>
           </div>
         </div>
       </div>
@@ -708,12 +99,21 @@
           </svg>
           Audit Trail Log
         </span>
-        <button class="btn-refresh" onclick="loadHistory()">
-          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-          </svg>
-          Refresh
-        </button>
+
+        <div class="trail-header-actions">
+          <div class="pagination-bar">
+            <button class="btn-nav" id="prevBtn" onclick="prevPage()" title="Previous Page" disabled>&larr;</button>
+            <span class="page-indicator" id="pageIndicator">Page 1 of 1</span>
+            <button class="btn-nav" id="nextBtn" onclick="nextPage()" title="Next Page" disabled>&rarr;</button>
+          </div>
+
+          <button class="btn-refresh" onclick="loadHistory()">
+            <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
       </div>
 
       <div class="table-wrapper">
@@ -730,23 +130,7 @@
             </tr>
           </thead>
           <tbody id="historyTableBody">
-            {% for item in history %}
-            <tr>
-              <td class="mono">{{ item.timestamp[:19] }}</td>
-              <td>{{ item.filename }}</td>
-              <td>
-                <span class="{{ 'tag-ai' if item.verdict == 'AI' else 'tag-real' }}">{{ item.verdict }}</span>
-              </td>
-              <td class="mono text-right">{{ "%.1f"|format(item.confidence * 100) }}%</td>
-              <td class="mono text-right">{{ "%.4f"|format(item.raw_score) }}</td>
-              <td class="mono">{{ item.model_mode }}</td>
-              <td class="mono text-right">{{ "%.1f"|format(item.latency_ms) }} ms</td>
-            </tr>
-            {% else %}
-            <tr>
-              <td colspan="7" style="text-align: center; color: var(--text-tertiary); padding: 1.5rem;">No predictions logged in audit database yet.</td>
-            </tr>
-            {% endfor %}
+            <!-- Populated Dynamically With 5 Items Per Page -->
           </tbody>
         </table>
       </div>
@@ -760,13 +144,11 @@
         <span style="color: var(--border-muted);">|</span>
         <span>MODEL: <span class="footer-tag">23L-0801_A2_Ops_visionguard@champion</span></span>
       </div>
-      <div class="footer-right">
-        <span>DECISION THRESHOLD: <span class="footer-tag">τ = 0.5252 (Youden's J)</span></span>
-      </div>
     </footer>
   </div>
 
   <script>
+    // State & DOM Elements
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const previewContainer = document.getElementById('previewContainer');
@@ -776,6 +158,30 @@
     const inspectForm = document.getElementById('inspectForm');
     const resultBox = document.getElementById('resultBox');
     const latencyIndicator = document.getElementById('latencyIndicator');
+    const historyTableBody = document.getElementById('historyTableBody');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+
+    // Pagination Configuration
+    const PAGE_SIZE = 5;
+    let currentPage = 1;
+    let trailRecords = [
+      {% for item in history %}
+      {
+        timestamp: {{ item.timestamp|tojson }},
+        filename: {{ item.filename|tojson }},
+        verdict: {{ item.verdict|tojson }},
+        confidence: {{ item.confidence }},
+        raw_score: {{ item.raw_score }},
+        model_mode: {{ item.model_mode|tojson }},
+        latency_ms: {{ item.latency_ms }}
+      }{{ "," if not loop.last else "" }}
+      {% endfor %}
+    ];
+
+    // Initialize View
+    renderTable();
 
     dropzone.addEventListener('click', () => fileInput.click());
 
@@ -848,7 +254,7 @@
         }
 
         renderResult(data);
-        loadHistory();
+        await loadHistory();
       } catch (err) {
         resultBox.innerHTML = `
           <div class="empty-state">
@@ -907,26 +313,71 @@
       `;
     }
 
+    // Pagination Functions
+    function renderTable() {
+      const totalRecords = trailRecords.length;
+      const totalPages = Math.max(1, Math.ceil(totalRecords / PAGE_SIZE));
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = (currentPage <= 1);
+      nextBtn.disabled = (currentPage >= totalPages);
+
+      if (totalRecords === 0) {
+        historyTableBody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-tertiary); padding: 1.5rem;">
+              No predictions logged in audit database yet.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const pageItems = trailRecords.slice(startIdx, startIdx + PAGE_SIZE);
+
+      historyTableBody.innerHTML = pageItems.map(item => `
+        <tr>
+          <td class="mono">${item.timestamp.substring(0, 19)}</td>
+          <td>${item.filename}</td>
+          <td>
+            <span class="${item.verdict === 'AI' ? 'tag-ai' : 'tag-real'}">${item.verdict}</span>
+          </td>
+          <td class="mono text-right">${(item.confidence * 100).toFixed(1)}%</td>
+          <td class="mono text-right">${item.raw_score.toFixed(4)}</td>
+          <td class="mono">${item.model_mode}</td>
+          <td class="mono text-right">${item.latency_ms.toFixed(1)} ms</td>
+        </tr>
+      `).join('');
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    }
+
+    function nextPage() {
+      const totalPages = Math.max(1, Math.ceil(trailRecords.length / PAGE_SIZE));
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    }
+
     async function loadHistory() {
       try {
         const res = await fetch('/history');
         const items = await res.json();
-        const tbody = document.getElementById('historyTableBody');
-        if (!items || items.length === 0) return;
-
-        tbody.innerHTML = items.map(item => `
-          <tr>
-            <td class="mono">${item.timestamp.substring(0, 19)}</td>
-            <td>${item.filename}</td>
-            <td>
-              <span class="${item.verdict === 'AI' ? 'tag-ai' : 'tag-real'}">${item.verdict}</span>
-            </td>
-            <td class="mono text-right">${(item.confidence * 100).toFixed(1)}%</td>
-            <td class="mono text-right">${item.raw_score.toFixed(4)}</td>
-            <td class="mono">${item.model_mode}</td>
-            <td class="mono text-right">${item.latency_ms.toFixed(1)} ms</td>
-          </tr>
-        `).join('');
+        if (Array.isArray(items)) {
+          trailRecords = items;
+          currentPage = 1;
+          renderTable();
+        }
       } catch (e) {
         console.error('Failed to refresh history:', e);
       }
