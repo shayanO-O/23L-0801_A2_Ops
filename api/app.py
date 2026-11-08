@@ -11,8 +11,24 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 MODEL_PATH = os.path.join("model", "champion.keras")
-DEFAULT_THRESHOLD = 0.5252
+DEFAULT_THRESHOLD = float(os.getenv("THRESHOLD", "0.5252"))
+API_KEY = os.getenv("API_KEY")
 START_TIME = time.time()
+
+
+@app.before_request
+def authenticate_request():
+    if request.path in ["/", "/health"]:
+        return None
+    if API_KEY:
+        incoming_key = request.headers.get("X-API-Key") or request.headers.get("x-api-key")
+        if not incoming_key and request.headers.get("Authorization"):
+            auth = request.headers.get("Authorization", "")
+            if auth.startswith("Bearer "):
+                incoming_key = auth.split(" ", 1)[1]
+        if incoming_key != API_KEY:
+            return jsonify({"error": "Unauthorized: Missing or invalid X-API-Key header."}), 401
+    return None
 
 # Zero Drift Decoding Op
 def decode_and_resize(image_bytes, img_size=(224, 224)):
