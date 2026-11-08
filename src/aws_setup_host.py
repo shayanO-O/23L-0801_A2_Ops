@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-import socket
 from dotenv import load_dotenv
 import paramiko
 
@@ -62,7 +61,7 @@ def setup_and_deploy():
             connected = True
             print("SSH connection established successfully.")
             break
-        except Exception as e:
+        except Exception:
             print(f"Waiting for SSH daemon (attempt {attempt}/30)...")
             time.sleep(5)
 
@@ -90,7 +89,7 @@ def setup_and_deploy():
     # 4. Docker Run (Passing API_KEY and THRESHOLD safely)
     print("\n--- Running container on Port 80:7860 ---")
     run_ssh_command(ssh, "sudo docker rm -f vg-api || true", print_output=False)
-    
+
     # Secure execution: API_KEY is passed directly in the SSH command without logging
     run_cmd = f"sudo docker run -d --name vg-api --restart always -p 80:7860 -e API_KEY='{api_key}' -e THRESHOLD='{threshold}' visionguard-cloud:latest"
     stdin, stdout, stderr = ssh.exec_command(run_cmd)
@@ -101,7 +100,7 @@ def setup_and_deploy():
     time.sleep(3)
     print("\n--- Verifying Container Status ---")
     run_ssh_command(ssh, "sudo docker ps --filter 'name=vg-api'")
-    
+
     print("\n--- Recent Container Logs ---")
     run_ssh_command(ssh, "sudo docker logs --tail 20 vg-api")
 

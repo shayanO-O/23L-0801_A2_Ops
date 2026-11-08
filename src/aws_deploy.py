@@ -1,8 +1,6 @@
 import os
 import sys
-import time
 import stat
-import io
 import requests
 from dotenv import load_dotenv
 import boto3
@@ -34,8 +32,6 @@ def get_current_public_ip() -> str:
 def deploy_aws_infrastructure():
     ak = os.getenv("AWS_ACCESS_KEY_ID")
     sk = os.getenv("AWS_SECRET_ACCESS_KEY")
-    api_key = os.getenv("API_KEY")
-    threshold = os.getenv("THRESHOLD", "0.5252")
 
     if not ak or not sk:
         raise ValueError("AWS credentials missing in .env")
@@ -49,7 +45,7 @@ def deploy_aws_infrastructure():
     # 1. Manage EC2 Key Pair
     os.makedirs("scratch", exist_ok=True)
     existing_keys = ec2.describe_key_pairs(Filters=[{"Name": "key-name", "Values": [RESOURCE_NAME]}])["KeyPairs"]
-    
+
     if existing_keys and not os.path.exists(KEY_PEM_PATH):
         print(f"Existing key pair found in AWS but {KEY_PEM_PATH} missing locally. Recreating key pair...")
         ec2.delete_key_pair(KeyName=RESOURCE_NAME)
@@ -180,11 +176,11 @@ def deploy_aws_infrastructure():
     # Retrieve Public IP
     inst_desc = ec2.describe_instances(InstanceIds=[instance_id])["Reservations"][0]["Instances"][0]
     public_ip = inst_desc.get("PublicIpAddress")
-    print(f"\n=======================================================")
+    print("\n=======================================================")
     print(f" Instance {instance_id} is RUNNING!")
     print(f" Public IPv4: {public_ip}")
     print(f" Cloud API Base URL: http://{public_ip}")
-    print(f"=======================================================\n")
+    print("=======================================================\n")
 
     return instance_id, public_ip, sg_id
 
