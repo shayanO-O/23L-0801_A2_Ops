@@ -54,14 +54,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Up Docker Buildx
-        uses: actions/setup-buildx-action@v3
-
       - name: Build Production Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: visionguard:ci
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        run: |
+          docker build -t visionguard:ci .
