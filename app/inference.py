@@ -125,8 +125,9 @@ def predict_cloud(image_bytes: bytes, threshold: float = DEFAULT_THRESHOLD) -> D
     predict_endpoint = f"{cloud_url.rstrip('/')}/predict"
     files = {"file": ("upload.jpg", image_bytes, "image/jpeg")}
     data = {"threshold": str(threshold)}
+    headers = {"Bypass-Tunnel-Reminder": "true"}
 
-    response = requests.post(predict_endpoint, files=files, data=data, timeout=30)
+    response = requests.post(predict_endpoint, files=files, data=data, headers=headers, timeout=30)
     if response.status_code != 200:
         raise RuntimeError(f"Cloud API request failed ({response.status_code}): {response.text}")
 
