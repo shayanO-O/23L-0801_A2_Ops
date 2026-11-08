@@ -143,15 +143,9 @@ def execute_single_run(run_name, model_builder_fn, config, splits_dir="splits", 
 
     # Idempotency Verification
     existing = get_existing_run(client, exp_id, run_name)
-    if existing:
-        tags = existing.data.tags
-        if (
-            tags.get("config_hash") == cfg_hash
-            and tags.get("code_commit") == code_commit
-            and tags.get("dvc_data_md5") == dvc_md5
-        ):
-            print(f"[IDEMPOTENT SKIP] Run '{run_name}' Already Completed With Identical Config & Data. Skipping.")
-            return existing.info.run_id
+    if existing and existing.info.status == "FINISHED":
+        print(f"[IDEMPOTENT SKIP] Run '{run_name}' Already Completed. Skipping.")
+        return existing.info.run_id
 
     print(f"\n========================================================")
     print(f" Executing Experiment Run: {run_name} (Smoke={smoke})")
@@ -337,14 +331,19 @@ def run_stage_tuner(smoke=False):
     dvc_md5 = compute_dvc_data_md5()
 
     out_csv = os.path.join("report", "tables", "tuner_trials.csv")
-    df_trials = run_tuner_search(
+    res = run_tuner_search(
         splits_dir="splits",
         output_csv=out_csv,
         seed=SEED,
         smoke=smoke,
     )
 
-    best_trial = df_trials.iloc[0].to_dict()
+    if isinstance(res, tuple):
+        best_trial, df_trials = res
+    else:
+        df_trials = res
+        best_trial = df_trials.iloc[0].to_dict()
+
     mark_older_runs_superseded(client, exp_id, "tuner")
 
     with mlflow.start_run(run_name="tuner") as run:
@@ -454,6 +453,11 @@ def run_stage_finals(smoke=False):
             callbacks=callbacks,
             verbose=1,
         )
+
+        try:
+            mlflow.keras.log_model(model_autolog, artifact_path="model")
+        except Exception:
+            pass
 
     # Disable Autolog Afterwards To Prevent Spillover
     try:
