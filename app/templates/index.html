@@ -7,333 +7,726 @@
   <title>23L-0801 A2 Ops - VisionGuard AI vs Real Inspector</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0B0F17;
-      --card-bg: #111827;
-      --card-border: #1F2937;
-      --accent: #3B82F6;
-      --accent-hover: #2563EB;
-      --ai-color: #EF4444;
-      --ai-bg: rgba(239, 68, 68, 0.12);
-      --real-color: #10B981;
-      --real-bg: rgba(16, 185, 129, 0.12);
-      --text: #F3F4F6;
-      --text-muted: #9CA3AF;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg: #09090b;
+      --surface-1: #121215;
+      --surface-2: #18181b;
+      --surface-3: #222226;
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-muted: rgba(255, 255, 255, 0.12);
+      --border-hover: rgba(255, 255, 255, 0.22);
+      
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-tertiary: #71717a;
+      
+      --accent: #3b82f6;
+      --accent-muted: rgba(59, 130, 246, 0.12);
+      
+      --ai-text: #fb7185;
+      --ai-bg: rgba(244, 63, 94, 0.08);
+      --ai-border: rgba(244, 63, 94, 0.25);
+      
+      --real-text: #34d399;
+      --real-bg: rgba(16, 185, 129, 0.08);
+      --real-border: rgba(16, 185, 129, 0.25);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: var(--bg);
-      color: var(--text);
+      color: var(--text-primary);
       font-family: var(--font-sans);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1.5rem;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 119, 198, 0.08), transparent 100%),
+        linear-gradient(to bottom, #09090b, #09090b);
     }
+
     .container {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
       width: 100%;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-    .badge-roll {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--accent);
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      padding: 0.35rem 0.85rem;
-      border-radius: 9999px;
-      margin-bottom: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-    h1 {
-      font-size: 2.25rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #FFFFFF 0%, #9CA3AF 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 1.5rem;
     }
-    @media (min-width: 768px) {
-      .grid { grid-template-columns: 1fr 1fr; }
+
+    /* Header & Navigation Bar */
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-bottom: 0.5rem;
     }
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 1rem;
-      padding: 1.75rem;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-    }
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
+
+    .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
-    .mode-indicator {
-      font-size: 0.75rem;
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
       font-family: var(--font-mono);
-      background: #1F2937;
-      padding: 0.25rem 0.6rem;
-      border-radius: 0.375rem;
-      color: #9CA3AF;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
-    .mode-indicator.active {
-      color: #34D399;
-      background: rgba(52, 211, 153, 0.1);
-      border: 1px solid rgba(52, 211, 153, 0.2);
+
+    .meta-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--real-text);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
     }
+
+    .meta-pill .sep {
+      color: var(--border-muted);
+    }
+
+    .header-titles h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .header-titles p {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-top: 0.2rem;
+    }
+
+    /* Grid Workspace */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 860px) {
+      .grid {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface-1);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem 1.35rem;
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mode-chip {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .mode-chip.active {
+      background: rgba(59, 130, 246, 0.08);
+      border-color: rgba(59, 130, 246, 0.25);
+      color: #60a5fa;
+    }
+
+    .latency-chip {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Dropzone */
     .dropzone {
-      border: 2px dashed #374151;
-      border-radius: 0.75rem;
-      padding: 2.5rem 1.5rem;
+      border: 1px dashed var(--border-muted);
+      border-radius: 8px;
+      padding: 2.25rem 1.25rem;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s ease;
-      background: rgba(17, 24, 39, 0.5);
+      transition: all 0.15s ease;
+      background: var(--surface-2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
+
     .dropzone:hover, .dropzone.dragover {
-      border-color: var(--accent);
-      background: rgba(59, 130, 246, 0.05);
+      border-color: var(--border-hover);
+      background: rgba(255, 255, 255, 0.02);
     }
-    .dropzone svg {
-      width: 44px;
-      height: 44px;
-      color: #6B7280;
+
+    .dropzone-icon {
+      width: 36px;
+      height: 36px;
+      color: var(--text-tertiary);
       margin-bottom: 0.75rem;
+      stroke-width: 1.5;
     }
-    .dropzone p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
+
+    .dropzone-prompt {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.35rem;
     }
-    .dropzone span {
-      font-size: 0.8rem;
-      color: #6B7280;
+
+    .dropzone-prompt strong {
+      color: var(--text-primary);
+      font-weight: 500;
     }
+
+    .dropzone-note {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+    }
+
     .preview-container {
       margin-top: 1rem;
       display: none;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.5rem;
+      background: var(--surface-2);
       text-align: center;
     }
+
     .preview-img {
-      max-height: 200px;
+      max-height: 180px;
       max-width: 100%;
-      border-radius: 0.5rem;
-      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      object-fit: contain;
     }
-    .btn {
-      display: block;
+
+    .preview-filename {
+      margin-top: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Action Button (Tactile Vercel / Linear Style) */
+    .btn-submit {
       width: 100%;
-      padding: 0.85rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 0.625rem;
-      font-size: 1rem;
+      margin-top: 1rem;
+      padding: 0.65rem 1rem;
+      background: #ffffff;
+      color: #09090b;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      font-size: 0.875rem;
       font-weight: 600;
+      letter-spacing: -0.01em;
       cursor: pointer;
-      margin-top: 1.25rem;
-      transition: background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transition: all 0.15s ease;
     }
-    .btn:hover { background: var(--accent-hover); }
-    .btn:disabled {
-      background: #374151;
+
+    .btn-submit:hover:not(:disabled) {
+      background: #f4f4f5;
+      transform: translateY(-1px);
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: translateY(0);
+      background: #e4e4e7;
+    }
+
+    .btn-submit:disabled {
+      background: var(--surface-2);
+      color: var(--text-tertiary);
+      border: 1px solid var(--border-subtle);
+      box-shadow: none;
       cursor: not-allowed;
-      color: #9CA3AF;
+      transform: none;
     }
-    .result-box {
+
+    /* Verdict Box */
+    .verdict-box {
       min-height: 280px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-    }
-    .verdict-badge {
-      font-size: 1.5rem;
-      font-weight: 800;
-      padding: 0.75rem 2rem;
-      border-radius: 0.75rem;
-      margin-bottom: 1.25rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-    .verdict-ai {
-      color: var(--ai-color);
-      background: var(--ai-bg);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .verdict-real {
-      color: var(--real-color);
-      background: var(--real-bg);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .meter-container {
-      width: 100%;
-      background: #1F2937;
-      height: 12px;
-      border-radius: 9999px;
-      overflow: hidden;
-      margin: 1rem 0 0.5rem 0;
-    }
-    .meter-bar {
+      padding: 1rem 0.5rem;
       height: 100%;
-      transition: width 0.5s ease;
-      border-radius: 9999px;
     }
-    .meter-ai { background: linear-gradient(90deg, #F87171, #EF4444); }
-    .meter-real { background: linear-gradient(90deg, #34D399, #10B981); }
-    .details-grid {
-      width: 100%;
-      margin-top: 1.25rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      text-align: left;
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-tertiary);
     }
-    .detail-item {
-      background: #1F2937;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
+
+    .empty-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--text-tertiary);
+      stroke-width: 1.5;
     }
-    .detail-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-    .detail-value {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .history-card {
-      margin-top: 2rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+
+    .empty-text {
       font-size: 0.875rem;
-      margin-top: 1rem;
+      color: var(--text-secondary);
     }
-    th, td {
-      padding: 0.75rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--card-border);
+
+    .empty-subtext {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      max-width: 240px;
     }
-    th {
-      color: var(--text-muted);
-      font-weight: 600;
-      background: rgba(31, 41, 55, 0.4);
+
+    /* Verdict Result State */
+    .result-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .tag-ai { color: var(--ai-color); font-weight: 700; }
-    .tag-real { color: var(--real-color); font-weight: 700; }
-    .mono { font-family: var(--font-mono); font-size: 0.8rem; }
-    footer {
-      margin-top: auto;
-      padding-top: 3rem;
-      text-align: center;
-      color: #6B7280;
-      font-size: 0.85rem;
-      font-family: var(--font-mono);
+
+    .verdict-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.75rem;
     }
-    .status-dot {
-      display: inline-block;
+
+    .verdict-badge .status-light {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #10B981;
-      margin-right: 0.4rem;
+    }
+
+    .verdict-ai {
+      color: var(--ai-text);
+      background: var(--ai-bg);
+      border: 1px solid var(--ai-border);
+    }
+
+    .verdict-ai .status-light {
+      background: var(--ai-text);
+      box-shadow: 0 0 8px rgba(251, 113, 133, 0.6);
+    }
+
+    .verdict-real {
+      color: var(--real-text);
+      background: var(--real-bg);
+      border: 1px solid var(--real-border);
+    }
+
+    .verdict-real .status-light {
+      background: var(--real-text);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+    }
+
+    .confidence-summary {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .confidence-summary strong {
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-feature-settings: "tnum";
+    }
+
+    /* Tactile Meter */
+    .meter-container {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .meter-bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .meter-ai { background: var(--ai-text); }
+    .meter-real { background: var(--real-text); }
+
+    /* Technical Metrics Tiles */
+    .metrics-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      text-align: left;
+    }
+
+    .metric-tile {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.6rem 0.75rem;
+    }
+
+    .metric-label {
+      font-size: 0.6875rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-tertiary);
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Audit Trail Card */
+    .history-card {
+      margin-top: 0.25rem;
+    }
+
+    .btn-refresh {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-refresh:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+      background: var(--surface-3);
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      margin-top: 0.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      white-space: nowrap;
+    }
+
+    thead th {
+      background: var(--surface-2);
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.6rem 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      text-align: left;
+    }
+
+    tbody td {
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .tag-ai {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      background: var(--ai-bg);
+      border: 1px solid var(--ai-border);
+      color: var(--ai-text);
+    }
+
+    .tag-real {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      background: var(--real-bg);
+      border: 1px solid var(--real-border);
+      color: var(--real-text);
+    }
+
+    /* System Footer */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1.25rem 0.25rem 0.5rem 0.25rem;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--real-text);
+      box-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-tag {
+      color: var(--text-secondary);
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header -->
     <header>
-      <div class="badge-roll">23L-0801 A2 OPS • VISIONGUARD</div>
-      <h1>AI vs Real Image Inspector</h1>
-      <p class="subtitle">Deep Learning MLOps Classifier Powered by Champion MobileNetV2 Pipeline</p>
+      <div class="header-top">
+        <div class="meta-pill">
+          <span class="dot"></span>
+          <span>23L-0801 A2 OPS</span>
+          <span class="sep">•</span>
+          <span>VISIONGUARD v2.0</span>
+        </div>
+        <div class="meta-pill">
+          <span>MODEL ALIAS:</span>
+          <span style="color: var(--text-primary);">@champion</span>
+        </div>
+      </div>
+      <div class="header-titles">
+        <h1>AI vs Real Image Inspector</h1>
+        <p>Champion MobileNetV2 Deep Learning Pipeline for Synthetic Art & Photorealism Discrimination</p>
+      </div>
     </header>
 
+    <!-- Main Workspace -->
     <div class="grid">
-      <!-- Upload Card -->
+      <!-- Upload Zone -->
       <div class="card">
-        <div class="card-title">
-          <span>Upload Image</span>
-          <span class="mode-indicator active" id="modeIndicator">MODE: {{ model_mode.upper() }}</span>
+        <div class="card-header">
+          <span class="card-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+            </svg>
+            Upload Asset
+          </span>
+          <span class="mode-chip active" id="modeIndicator">ENGINE: {{ model_mode.upper() }}</span>
         </div>
 
         <form id="inspectForm" enctype="multipart/form-data">
           <div class="dropzone" id="dropzone">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            <svg class="dropzone-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
             </svg>
-            <p><strong>Click to browse</strong> or drag & drop image here</p>
-            <span>JPEG, PNG, WEBP (Max 5 MB)</span>
+            <p class="dropzone-prompt"><strong>Click to browse</strong> or drag & drop image here</p>
+            <span class="dropzone-note">JPEG, PNG, WEBP (Max 5 MB)</span>
             <input type="file" id="fileInput" name="file" accept="image/jpeg,image/png,image/webp" style="display: none;">
           </div>
 
           <div class="preview-container" id="previewContainer">
             <img id="previewImg" class="preview-img" src="#" alt="Upload preview">
+            <div class="preview-filename" id="previewFilename"></div>
           </div>
 
-          <button type="submit" class="btn" id="submitBtn" disabled>Inspect Image</button>
+          <button type="submit" class="btn-submit" id="submitBtn" disabled>
+            <span>Inspect Image</span>
+          </button>
         </form>
       </div>
 
-      <!-- Result Card -->
+      <!-- Verdict Display -->
       <div class="card">
-        <div class="card-title">
-          <span>Inspection Verdict</span>
-          <span class="mode-indicator" id="latencyIndicator">LATENCY: --</span>
+        <div class="card-header">
+          <span class="card-title">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Inspection Verdict
+          </span>
+          <span class="latency-chip" id="latencyIndicator">LATENCY: --</span>
         </div>
 
-        <div class="result-box" id="resultBox">
-          <p style="color: var(--text-muted);">Select or drop an image to run classification.</p>
+        <div class="verdict-box" id="resultBox">
+          <div class="empty-state">
+            <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <p class="empty-text">Awaiting image payload</p>
+            <p class="empty-subtext">Drop an image on the left or select a sample file to execute classification.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- History Card -->
+    <!-- Audit Trail -->
     <div class="card history-card">
-      <div class="card-title">
-        <span>Recent Audit Trail</span>
-        <button onclick="loadHistory()" style="background: none; border: none; color: var(--accent); cursor: pointer; font-size: 0.85rem; font-weight: 600;">Refresh</button>
+      <div class="card-header">
+        <span class="card-title">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Audit Trail Log
+        </span>
+        <button class="btn-refresh" onclick="loadHistory()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          Refresh
+        </button>
       </div>
-      <div style="overflow-x: auto;">
+
+      <div class="table-wrapper">
         <table>
           <thead>
             <tr>
               <th>Timestamp</th>
               <th>Filename</th>
               <th>Verdict</th>
-              <th>Confidence</th>
-              <th>Raw Score</th>
+              <th class="text-right">Confidence</th>
+              <th class="text-right">Raw Score</th>
               <th>Mode</th>
-              <th>Latency</th>
+              <th class="text-right">Latency</th>
             </tr>
           </thead>
           <tbody id="historyTableBody">
@@ -341,22 +734,35 @@
             <tr>
               <td class="mono">{{ item.timestamp[:19] }}</td>
               <td>{{ item.filename }}</td>
-              <td><span class="{{ 'tag-ai' if item.verdict == 'AI' else 'tag-real' }}">{{ item.verdict }}</span></td>
-              <td class="mono">{{ "%.1f"|format(item.confidence * 100) }}%</td>
-              <td class="mono">{{ "%.4f"|format(item.raw_score) }}</td>
+              <td>
+                <span class="{{ 'tag-ai' if item.verdict == 'AI' else 'tag-real' }}">{{ item.verdict }}</span>
+              </td>
+              <td class="mono text-right">{{ "%.1f"|format(item.confidence * 100) }}%</td>
+              <td class="mono text-right">{{ "%.4f"|format(item.raw_score) }}</td>
               <td class="mono">{{ item.model_mode }}</td>
-              <td class="mono">{{ "%.1f"|format(item.latency_ms) }} ms</td>
+              <td class="mono text-right">{{ "%.1f"|format(item.latency_ms) }} ms</td>
             </tr>
             {% else %}
-            <tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No predictions logged yet.</td></tr>
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-tertiary); padding: 1.5rem;">No predictions logged in audit database yet.</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
 
+    <!-- System Footer -->
     <footer>
-      <p><span class="status-dot"></span> System Status: Online | Model: 23L-0801_A2_Ops_visionguard@champion | Threshold: 0.5252</p>
+      <div class="footer-left">
+        <span class="status-dot"></span>
+        <span>SYSTEM: ONLINE</span>
+        <span style="color: var(--border-muted);">|</span>
+        <span>MODEL: <span class="footer-tag">23L-0801_A2_Ops_visionguard@champion</span></span>
+      </div>
+      <div class="footer-right">
+        <span>DECISION THRESHOLD: <span class="footer-tag">τ = 0.5252 (Youden's J)</span></span>
+      </div>
     </footer>
   </div>
 
@@ -365,6 +771,7 @@
     const fileInput = document.getElementById('fileInput');
     const previewContainer = document.getElementById('previewContainer');
     const previewImg = document.getElementById('previewImg');
+    const previewFilename = document.getElementById('previewFilename');
     const submitBtn = document.getElementById('submitBtn');
     const inspectForm = document.getElementById('inspectForm');
     const resultBox = document.getElementById('resultBox');
@@ -397,9 +804,10 @@
       const reader = new FileReader();
       reader.onload = (e) => {
         previewImg.src = e.target.result;
+        previewFilename.innerText = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
         previewContainer.style.display = 'block';
         submitBtn.disabled = false;
-        submitBtn.innerText = `Inspect ${file.name}`;
+        submitBtn.innerHTML = `<span>Inspect ${file.name}</span>`;
       };
       reader.readAsDataURL(file);
     }
@@ -410,8 +818,13 @@
       if (!file) return;
 
       submitBtn.disabled = true;
-      submitBtn.innerText = 'Analyzing Image...';
-      resultBox.innerHTML = '<p style="color: var(--accent); font-weight: 600;">Evaluating neural activations...</p>';
+      submitBtn.innerHTML = `<span>Evaluating Neural Pipeline...</span>`;
+      resultBox.innerHTML = `
+        <div class="empty-state">
+          <p class="empty-text" style="color: var(--accent);">Evaluating MobileNetV2 Activations...</p>
+          <p class="empty-subtext">Computing zero-drift tensor embeddings and sigmoid calibration.</p>
+        </div>
+      `;
 
       const formData = new FormData();
       formData.append('file', file);
@@ -425,17 +838,27 @@
         const data = await res.json();
 
         if (!res.ok) {
-          resultBox.innerHTML = `<p style="color: var(--ai-color); font-weight: 600;">Error: ${data.error || 'Inspection failed.'}</p>`;
+          resultBox.innerHTML = `
+            <div class="empty-state">
+              <p class="empty-text" style="color: var(--ai-text);">Inspection Error</p>
+              <p class="empty-subtext">${data.error || 'Request failed validation.'}</p>
+            </div>
+          `;
           return;
         }
 
         renderResult(data);
         loadHistory();
       } catch (err) {
-        resultBox.innerHTML = `<p style="color: var(--ai-color); font-weight: 600;">Network Error: ${err.message}</p>`;
+        resultBox.innerHTML = `
+          <div class="empty-state">
+            <p class="empty-text" style="color: var(--ai-text);">Network Exception</p>
+            <p class="empty-subtext">${err.message}</p>
+          </div>
+        `;
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = 'Inspect Image';
+        submitBtn.innerHTML = `<span>Inspect Image</span>`;
       }
     });
 
@@ -443,32 +866,42 @@
       const isAI = data.verdict === 'AI';
       const badgeClass = isAI ? 'verdict-ai' : 'verdict-real';
       const meterClass = isAI ? 'meter-ai' : 'meter-real';
-      const verdictText = isAI ? 'AI Generated Art' : 'Real Photo / Artwork';
+      const verdictText = isAI ? 'AI Generated Image' : 'Authentic / Real Image';
 
       latencyIndicator.innerText = `LATENCY: ${data.latency_ms.toFixed(1)} ms`;
 
       resultBox.innerHTML = `
-        <div class="verdict-badge ${badgeClass}">${verdictText}</div>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Confidence: <strong>${(data.confidence * 100).toFixed(1)}%</strong></p>
-        <div class="meter-container">
-          <div class="meter-bar ${meterClass}" style="width: ${(data.confidence * 100).toFixed(1)}%;"></div>
-        </div>
-        <div class="details-grid">
-          <div class="detail-item">
-            <div class="detail-label">RAW SIGMOID SCORE</div>
-            <div class="detail-value">${data.raw_score.toFixed(4)}</div>
+        <div class="result-content">
+          <div class="verdict-badge ${badgeClass}">
+            <span class="status-light"></span>
+            <span>${verdictText}</span>
           </div>
-          <div class="detail-item">
-            <div class="detail-label">DECISION THRESHOLD</div>
-            <div class="detail-value">${data.threshold.toFixed(4)}</div>
+          
+          <div class="confidence-summary">
+            Confidence: <strong>${(data.confidence * 100).toFixed(1)}%</strong>
           </div>
-          <div class="detail-item">
-            <div class="detail-label">MODEL ALIAS</div>
-            <div class="detail-value">${data.model_alias} (v${data.model_version})</div>
+
+          <div class="meter-container">
+            <div class="meter-bar ${meterClass}" style="width: ${(data.confidence * 100).toFixed(1)}%;"></div>
           </div>
-          <div class="detail-item">
-            <div class="detail-label">ENGINE MODE</div>
-            <div class="detail-value">${data.model_mode}</div>
+
+          <div class="metrics-grid">
+            <div class="metric-tile">
+              <div class="metric-label">RAW SIGMOID SCORE</div>
+              <div class="metric-value">${data.raw_score.toFixed(4)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-label">DECISION THRESHOLD</div>
+              <div class="metric-value">${data.threshold.toFixed(4)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-label">ACTIVE MODEL ALIAS</div>
+              <div class="metric-value">${data.model_alias} (v${data.model_version})</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-label">INFERENCE MODE</div>
+              <div class="metric-value">${data.model_mode.toUpperCase()}</div>
+            </div>
           </div>
         </div>
       `;
@@ -485,11 +918,13 @@
           <tr>
             <td class="mono">${item.timestamp.substring(0, 19)}</td>
             <td>${item.filename}</td>
-            <td><span class="${item.verdict === 'AI' ? 'tag-ai' : 'tag-real'}">${item.verdict}</span></td>
-            <td class="mono">${(item.confidence * 100).toFixed(1)}%</td>
-            <td class="mono">${item.raw_score.toFixed(4)}</td>
+            <td>
+              <span class="${item.verdict === 'AI' ? 'tag-ai' : 'tag-real'}">${item.verdict}</span>
+            </td>
+            <td class="mono text-right">${(item.confidence * 100).toFixed(1)}%</td>
+            <td class="mono text-right">${item.raw_score.toFixed(4)}</td>
             <td class="mono">${item.model_mode}</td>
-            <td class="mono">${item.latency_ms.toFixed(1)} ms</td>
+            <td class="mono text-right">${item.latency_ms.toFixed(1)} ms</td>
           </tr>
         `).join('');
       } catch (e) {
