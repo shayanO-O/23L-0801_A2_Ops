@@ -12,6 +12,8 @@ scratch/
 .pytest_cache/
 .ruff_cache/
 *.log
+*.db
+outputs/*.db
 __pycache__/
 *.pyc
 Assignment_2.pdf
