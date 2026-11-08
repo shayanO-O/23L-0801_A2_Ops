@@ -1,0 +1,53 @@
+{
+  "status": "COMPLETED",
+  "registered_model_name": "23L-0801_A2_Ops_visionguard",
+  "alias": "champion",
+  "champion_run_id": "a154df827bdb422795312b831184baca",
+  "test_samples_count": 147,
+  "optimal_threshold": 0.5252,
+  "champion_test_metrics": {
+    "accuracy": 0.7551,
+    "precision": 0.7778,
+    "recall": 0.7778,
+    "f1": 0.7778,
+    "roc_auc": 0.8442,
+    "pr_auc": 0.8618
+  },
+  "artifacts_generated": [
+    "report/tables/test_metrics.csv",
+    "report/figures/test_roc_curves.png",
+    "report/figures/test_confusion_matrices.png"
+  ],
+  "samples_copied": [
+    {
+      "file": "test_ai_01.jpeg",
+      "ground_truth": "AI",
+      "relpath": "AiArtData/AIlandscape1A.jpeg"
+    },
+    {
+      "file": "test_ai_02.jpg",
+      "ground_truth": "AI",
+      "relpath": "AiArtData/il_fullxfull.4616860275_kccz.jpg"
+    },
+    {
+      "file": "test_ai_03.jpg",
+      "ground_truth": "AI",
+      "relpath": "AiArtData/c6cd1ba0-f067-4ca6-9ea2-692684db2b58_hero-ai-portrait-enhancer.jpg"
+    },
+    {
+      "file": "test_real_01.jpg",
+      "ground_truth": "Real",
+      "relpath": "RealArt/cute-baby-animals-1558535060.jpg"
+    },
+    {
+      "file": "test_real_02.jpg",
+      "ground_truth": "Real",
+      "relpath": "RealArt/diverse-crowd-people-different-ages-races_74855-5235.jpg"
+    },
+    {
+      "file": "test_real_03.jpg",
+      "ground_truth": "Real",
+      "relpath": "RealArt/180222162827-the-kiss-story-top-card-image.jpg"
+    }
+  ]
+}
