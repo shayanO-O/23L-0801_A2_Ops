@@ -1,34 +1,69 @@
-# VisionGuard: AI vs Real Image Classification and Deployment
+# VisionGuard: AI vs Real Image Classification
 
 [![CI](https://github.com/shayanO-O/23L-0801_A2_Ops/actions/workflows/ci.yml/badge.svg)](https://github.com/shayanO-O/23L-0801_A2_Ops/actions/workflows/ci.yml)
 
-VisionGuard is an end-to-end machine learning system that classifies whether an image is AI-generated or real. It features an automated data and model versioning pipeline with DVC and MLflow on DagsHub, a containerized Flask web application with PostgreSQL logging, and a cloud-deployed inference API.
+VisionGuard is an end-to-end MLOps project that classifies whether an image is AI-generated or real. Data and models are versioned with DVC and MLflow on DagsHub, a Flask web app logs predictions to PostgreSQL, and the champion model is served by a separate inference API deployed on AWS EC2.
 
-## Project Structure
-- `src/`: Data processing, audit, EDA, model training, evaluation, and registry scripts.
-- `app/`: Flask web application and UI.
-- `api/`: Cloud-ready inference API containerized for Hugging Face Spaces.
-- `tests/`: Automated test suite for validation and routes.
-- `splits/`: Train, validation, and test split manifests.
-- `samples/`: Test image samples for evaluation and manual inspection.
-- `docker-compose.yml`: Local multi-container deployment (Web App + PostgreSQL).
+## Links
 
-## Quickstart
+| Resource | URL |
+|---|---|
+| GitHub Repository | https://github.com/shayanO-O/23L-0801_A2_Ops |
+| DagsHub Project (DVC + MLflow) | https://dagshub.com/shayanO-O/23L-0801_A2_Ops |
+| Live Inference API | http://3.24.214.144 |
+| API Health Check | http://3.24.214.144/health |
 
-### 1. Local Environment
-```bash
-python -m venv .venv
-# Activate virtual environment
-# Windows:
-.venv\Scripts\activate
-# Linux/macOS:
-source .venv/bin/activate
+## Repository Structure
 
-pip install -r requirements.txt
+```
+23L-0801_A2_Ops/
+├── .dvc/                  # DVC configuration
+├── .github/workflows/     # CI pipeline
+├── api/                   # Cloud inference API (deployed on AWS EC2)
+├── app/                   # Flask web app
+├── data/                  # DVC-tracked raw dataset pointer
+├── model/                 # Local model directory
+├── outputs/               # Evaluation manifest
+├── samples/               # Sample test images
+├── splits/                # Train/val/test split manifests
+├── src/                   # Training, evaluation and registry scripts
+├── tests/                 # Test suite
+├── Dockerfile             # Web app image
+├── docker-compose.yml     # Web app + PostgreSQL
+├── requirements.txt       # Local development & test dependencies (includes -r requirements-prod.txt)
+├── requirements-prod.txt  # Core production & container dependencies (used by Dockerfile & CI)
+├── requirements-train.txt # Model training & experiment tracking dependencies
+├── pyproject.toml         # Ruff and pytest config
+├── conftest.py            # Pytest config
+└── .env.example           # Environment template
 ```
 
-### 2. Run with Docker Compose
+## Setup
+
+### 1. Run the web app (Docker)
+
+No local Python installation or virtual environment is required to run the full application stack (Flask web app + PostgreSQL audit database):
+
 ```bash
 docker compose up -d --build
 ```
-Access the application at `http://localhost:5000`.
+
+Open http://localhost:5000 in your browser. To stop the application:
+
+```bash
+docker compose down
+```
+
+### 2. Run tests and lint
+
+To execute the automated test suite and code quality checks locally, create a virtual environment and install dependencies in one command:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+
+pip install -r requirements.txt
+pytest -v tests/
+ruff check app/ src/ tests/
+```
+

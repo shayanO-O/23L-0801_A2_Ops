@@ -1,21 +1,43 @@
+# local scratch / intermediate work
+scratch/
+
+# secrets and env
 .env
-.venv/
+.env.*
+!.env.example
+*.pem
+
+# data & models
 data/archive.zip
 data/raw/
 model/*.keras
 model/*.h5
 !api/model/champion.keras
 api/model/*.h5
-mlruns/
-scratch/
-.ipynb_checkpoints/
-.pytest_cache/
-.ruff_cache/
-*.log
-*.db
-outputs/*.db
-*.pem
+
+# python
+.venv/
+venv/
 __pycache__/
 *.pyc
-Assignment_2.pdf
-prompt.md
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# mlflow / local runs
+mlruns/
+mlartifacts/
+*.db
+outputs/*.db
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# logs / temp
+*.log
+tmp/
