@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10 MB limit for Flask request body
 
 START_TIME = time.time()
-MODEL_MODE = os.getenv("MODEL_MODE", "local").lower()
+MODEL_MODE = (os.getenv("MODEL_MODE") or os.getenv("INFERENCE_MODE") or "local").lower()
 
 
 @app.route("/", methods=["GET"])

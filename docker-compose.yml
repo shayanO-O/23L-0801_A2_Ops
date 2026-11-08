@@ -9,7 +9,11 @@ services:
       - "5000:5000"
     environment:
       - PORT=5000
-      - MODEL_MODE=local
+      - MODEL_MODE=${MODEL_MODE:-local}
+      - INFERENCE_MODE=${INFERENCE_MODE:-local}
+      - CLOUD_API_URL=${CLOUD_API_URL:-}
+      - API_URL=${API_URL:-}
+      - API_KEY=${API_KEY:-}
       - DATABASE_URL=postgresql://visionuser:visionpass@db:5432/visionguard
     depends_on:
       db:
