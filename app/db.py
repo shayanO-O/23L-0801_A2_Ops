@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 DB_FILE = os.getenv("SQLITE_DB_PATH", os.path.join("outputs", "predictions.db"))
 

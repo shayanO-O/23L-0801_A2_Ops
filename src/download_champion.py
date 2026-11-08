@@ -8,7 +8,6 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-import mlflow
 from mlflow.tracking import MlflowClient
 from dotenv import load_dotenv
 

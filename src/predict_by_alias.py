@@ -25,7 +25,6 @@ LOCAL_MODEL_PATH = os.path.join("model", "champion.keras")
 def load_champion_metadata(model_name=REGISTERED_MODEL_NAME, alias=DEFAULT_ALIAS):
     # Resolve Model Version And Run ID By Querying MLflow Model Registry
     try:
-        import mlflow
         from mlflow.tracking import MlflowClient
 
         client = MlflowClient()

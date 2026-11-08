@@ -1,5 +1,4 @@
 import os
-import pytest
 from app.inference import predict_image_bytes, DEFAULT_THRESHOLD
 
 

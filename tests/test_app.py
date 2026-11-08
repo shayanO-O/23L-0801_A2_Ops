@@ -2,7 +2,6 @@ import io
 import os
 import pytest
 from app.app import app
-from PIL import Image
 
 
 @pytest.fixture
