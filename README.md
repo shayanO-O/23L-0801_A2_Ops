@@ -35,6 +35,7 @@ VisionGuard is an end-to-end MLOps project that classifies whether an image is A
 ├── requirements-train.txt # Model training & experiment tracking dependencies
 ├── pyproject.toml         # Ruff and pytest config
 ├── conftest.py            # Pytest config
+├── 23L-0801_A2_Ops.pdf    # Final assignment report
 └── .env.example           # Environment template
 ```
 
