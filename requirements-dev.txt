@@ -1,0 +1,6 @@
+# VisionGuard Development Requirements
+-r requirements.txt
+-r requirements-train.txt
+pytest==8.3.4
+ruff==0.9.9
+huggingface_hub==0.29.1
