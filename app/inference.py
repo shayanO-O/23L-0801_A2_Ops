@@ -118,9 +118,9 @@ def predict_cloud(image_bytes: bytes, threshold: float = DEFAULT_THRESHOLD) -> D
     # Query Remote Cloud Inference API on AWS EC2
     import requests
 
-    cloud_url = os.getenv("CLOUD_API_URL")
+    cloud_url = os.getenv("CLOUD_API_URL") or os.getenv("API_URL")
     if not cloud_url:
-        raise ValueError("CLOUD_API_URL environment variable is not configured.")
+        raise ValueError("CLOUD_API_URL or API_URL environment variable is not configured.")
 
     predict_endpoint = f"{cloud_url.rstrip('/')}/predict"
     files = {"file": ("upload.jpg", image_bytes, "image/jpeg")}
@@ -149,7 +149,7 @@ def predict_image_bytes(
     _, file_hash = validate_image_bytes(image_bytes, filename=filename)
 
     mode = model_mode.lower()
-    if mode == "cloud":
+    if mode in ("cloud", "remote"):
         result = predict_cloud(image_bytes, threshold=threshold)
     else:
         result = predict_local(image_bytes, threshold=threshold)
