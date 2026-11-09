@@ -115,7 +115,7 @@ def predict_local(image_bytes: bytes, threshold: float = DEFAULT_THRESHOLD) -> D
 
 
 def predict_cloud(image_bytes: bytes, threshold: float = DEFAULT_THRESHOLD) -> Dict[str, Any]:
-    # Query Remote Cloud Inference API on Hugging Face Spaces
+    # Query Remote Cloud Inference API on AWS EC2
     import requests
 
     cloud_url = os.getenv("CLOUD_API_URL")
@@ -125,14 +125,17 @@ def predict_cloud(image_bytes: bytes, threshold: float = DEFAULT_THRESHOLD) -> D
     predict_endpoint = f"{cloud_url.rstrip('/')}/predict"
     files = {"file": ("upload.jpg", image_bytes, "image/jpeg")}
     data = {"threshold": str(threshold)}
-    headers = {"Bypass-Tunnel-Reminder": "true"}
+    headers = {}
+    api_key = os.getenv("API_KEY")
+    if api_key:
+        headers["X-API-Key"] = api_key
 
     response = requests.post(predict_endpoint, files=files, data=data, headers=headers, timeout=30)
     if response.status_code != 200:
         raise RuntimeError(f"Cloud API request failed ({response.status_code}): {response.text}")
 
     result = response.json()
-    result["engine"] = "cloud_hf_spaces"
+    result["engine"] = "cloud_aws_ec2"
     return result
 
 

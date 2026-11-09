@@ -14,6 +14,7 @@ scratch/
 *.log
 *.db
 outputs/*.db
+*.pem
 __pycache__/
 *.pyc
 Assignment_2.pdf

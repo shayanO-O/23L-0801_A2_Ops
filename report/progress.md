@@ -30,5 +30,5 @@
 | 6.4 | Pending | `report/tables/docker_image_sizes.txt` | Image size analysis, layer caching, optimization before/after |
 | 6.5 | Pending | Excerpt in `report/report.md` | Operations lifecycle, fault injection, troubleshooting via logs |
 | 6.6 | Pending | `report/screenshots/CP-6.6A_*.png`, `report/screenshots/CP-6.6B_*.png`, `report/screenshots/CP-6.6C_*.png`, `.github/workflows/ci.yml` | GitHub Actions CI: toy red/green matrix & main project pipeline |
-| Task 7 | Pending | `report/screenshots/CP-7.1_*.png`, `report/screenshots/CP-7.2_*.png`, `report/screenshots/CP-7.3_*.png`, `report/screenshots/CP-7.4_*.png` | Public cloud API deployment (Hugging Face Docker Space), Postman test |
+| Task 7 | In Progress | `report/screenshots/CP-7.*.png`, `src/aws_deploy.py`, `src/aws_setup_host.py` | AWS EC2 t3.small live deployment in ap-southeast-2, Docker container on port 80, API key protected |
 | Task 8 | Pending | `report/screenshots/CP-8_*.png` | Flask localhost integration with cloud API, history verification |
