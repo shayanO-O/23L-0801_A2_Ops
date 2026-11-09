@@ -1,4 +1,0 @@
-model,threshold,accuracy,precision,recall,f1,roc_auc,pr_auc
-Baseline CNN (R0),0.5,0.6259,0.6429,0.6667,0.6545,0.6485,0.6612
-"Champion MobileNetV2 (Tuned, Default Thresh)",0.5,0.7619,0.7805,0.7901,0.7853,0.8442,0.8618
-"Champion MobileNetV2 (Tuned, Optimal Thresh)",0.5252,0.7551,0.7778,0.7778,0.7778,0.8442,0.8618
