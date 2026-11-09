@@ -50,7 +50,7 @@ def compute_code_commit():
         "src/train.py",
         "src/experiments.py",
         "src/tuner.py",
-        "requirements-train.txt",
+        "requirements.txt",
     ]
     try:
         cmd = ["git", "log", "-1", "--format=%H", "--"] + watched_files
