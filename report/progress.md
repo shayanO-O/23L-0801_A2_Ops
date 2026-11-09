@@ -31,4 +31,5 @@
 | 6.5 | Done | `report/notes.md` | Operations lifecycle, fault injection, troubleshooting via logs |
 | 6.6 | Done | `report/screenshots/CP-6.6A_*.png`, `report/screenshots/CP-6.6B_*.png`, `report/screenshots/CP-6.6C_*.png` | GitHub Actions CI: toy matrix & main project pipeline (Python 3.10 & 3.11 green) |
 | Task 7 | Done | `report/screenshots/CP-7.*.png`, `src/aws_deploy.py`, `src/aws_setup_host.py` | AWS EC2 t3.small live deployment in ap-southeast-2, Docker container on port 80, API key protected |
-| Task 8 | In Progress | `report/screenshots/CP-8_*.png` | Flask localhost integration with cloud API, history verification |
+| Task 8 | Done | `report/screenshots/CP-8_*.png` | Flask localhost integration with cloud API, history verification with PostgreSQL trail |
+| Bonus | Done | `src/gradcam.py`, `report/figures/gradcam.png`, `report/tables/gradcam_interpretations.md` | Grad-CAM activation mapping for 4 correct and 4 wrong test predictions with qualitative feature commentary |
