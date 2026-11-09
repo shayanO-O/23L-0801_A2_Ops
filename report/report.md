@@ -5,7 +5,7 @@
 **GitHub Repository**: [https://github.com/shayanO-O/23L-0801_A2_Ops](https://github.com/shayanO-O/23L-0801_A2_Ops)  
 **DagsHub Project**: [https://dagshub.com/shayanO-O/23L-0801_A2_Ops](https://dagshub.com/shayanO-O/23L-0801_A2_Ops)  
 **Live Cloud API URL**: [http://3.24.214.144](http://3.24.214.144)  
-**Graded Commit Hash**: `9dbbb22`  
+**Graded Commit Hash**: `e5616ee`  
 **AI Assistance Disclosure**: AI assistants (Google DeepMind Antigravity / Gemini for code scaffolding, automated debugging, and first-draft generation; ChatGPT and Claude for high-level plan verification) were employed under human review. All code, model training runs, Docker configurations, cloud deployments, and analytical evaluations were directly executed, tested, and validated by the author.
 
 ---
